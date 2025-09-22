@@ -122,6 +122,11 @@ Both scripts handle:
 
 This project implements a **modern microservices architecture** with clear separation of concerns:
 
+![Architecture Diagram](docs/diagrams/architecture.png)
+
+<details>
+<summary>📋 View Mermaid Diagram Code</summary>
+
 ```mermaid
 graph TD
     %% User Layer
@@ -167,6 +172,8 @@ graph TD
     class Anthropic external
     class VNCWeb,VNCServer,VNCDesktop vnc
 ```
+
+</details>
 
 **Key Architectural Decisions:**
 - **FastAPI replaces Streamlit**: Modern REST API with WebSocket support
