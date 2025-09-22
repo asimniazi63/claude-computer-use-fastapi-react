@@ -61,7 +61,6 @@ Both scripts handle:
 
 1. **Start Development:**
    ```bash
-   cd /home/asim/Desktop/challenge/energent
    ./run-dev.sh
    ```
    
@@ -90,7 +89,6 @@ Both scripts handle:
 
 1. **Deploy Production:**
    ```bash
-   cd /home/asim/Desktop/challenge/energent
    ./run-prod.sh
    ```
    
@@ -487,7 +485,6 @@ The README contains a detailed Mermaid diagram showing the system architecture. 
 ### Quick Generation
 
 ```bash
-cd /home/asim/Desktop/challenge/energent
 python scripts/generate-diagram.py
 ```
 
