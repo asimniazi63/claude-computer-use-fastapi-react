@@ -1,0 +1,44 @@
+services:
+  # Backend with FastAPI
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8501:8501"  # FastAPI backend
+      - "8080:8080"  # noVNC web interface
+      - "5901:5901"  # VNC port
+    environment:
+      - DISPLAY_NUM=1
+      - WIDTH=1024
+      - HEIGHT=768
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - API_PROVIDER=${API_PROVIDER:-anthropic}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./data:/home/computeruse/data
+    networks:
+      - computer-use-net
+    restart: unless-stopped
+    privileged: true
+
+  # React Frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile.dev
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8501
+      - HOST=0.0.0.0
+    networks:
+      - computer-use-net
+    restart: unless-stopped
+    depends_on:
+      - backend
+
+networks:
+  computer-use-net:
+    driver: bridge
+

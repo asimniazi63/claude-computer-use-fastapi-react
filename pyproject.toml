@@ -1,0 +1,4 @@
+[tool.pyright]
+venvPath = "backend"
+venv = ".venv"
+useLibraryCodeForTypes = false

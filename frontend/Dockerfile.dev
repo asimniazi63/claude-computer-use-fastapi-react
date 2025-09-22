@@ -1,0 +1,23 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY frontend/package.json ./
+
+# Install dependencies (including dev dependencies for react-scripts)
+RUN npm install
+
+# Copy source code and config files
+COPY frontend/src ./src
+COPY frontend/public ./public
+COPY frontend/tsconfig.json ./
+
+# Expose port
+EXPOSE 3000
+
+# Set environment variable to listen on all interfaces
+ENV HOST=0.0.0.0
+
+# Start development server
+CMD ["npm", "start"]

@@ -1,0 +1,77 @@
+services:
+  # Backend with FastAPI (development mode)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8501:8501"  # FastAPI backend
+      - "8080:8080"  # noVNC web interface
+      - "5901:5901"  # VNC port
+    environment:
+      - DISPLAY_NUM=1
+      - WIDTH=1024
+      - HEIGHT=768
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - API_PROVIDER=${API_PROVIDER:-anthropic}
+    volumes:
+      - ./backend/computer_use_demo:/home/computeruse/computer_use_demo
+      - ./data:/home/computeruse/data
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    networks:
+      - computer-use-net
+    restart: unless-stopped
+    privileged: true
+    develop:
+      watch:
+        - action: sync
+          path: ./backend/computer_use_demo
+          target: /home/computeruse/computer_use_demo
+          ignore:
+            - __pycache__/
+            - "*.pyc"
+            - "*.pyo"
+            - "*.pyd"
+            - ".pytest_cache/"
+        - action: rebuild
+          path: ./backend/requirements.txt
+        - action: rebuild
+          path: ./backend/pyproject.toml
+
+  # Development React Frontend with hot reload
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile.dev
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8501
+      - CHOKIDAR_USEPOLLING=true
+      - HOST=0.0.0.0
+      - WATCHPACK_POLLING=true
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+    networks:
+      - computer-use-net
+    restart: unless-stopped
+    depends_on:
+      - backend
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend/src
+          target: /app/src
+        - action: sync
+          path: ./frontend/public
+          target: /app/public
+        - action: rebuild
+          path: ./frontend/package.json
+        - action: rebuild
+          path: ./frontend/package-lock.json
+
+networks:
+  computer-use-net:
+    driver: bridge
+

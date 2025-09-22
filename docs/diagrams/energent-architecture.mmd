@@ -1,0 +1,43 @@
+graph TD
+    %% User Layer
+    User[👤 User] --> UI[🎨 React Frontend<br/>localhost:3000]
+    
+    %% Frontend Components
+    UI --> SessionMgr[📋 Session Manager<br/>MainLayout.tsx]
+    UI --> ChatUI[💬 Chat Interface<br/>SessionView.tsx]
+    UI --> VNCViewer[🖥️ VNC Viewer<br/>VNCViewer.tsx]
+    
+    %% API Communication
+    SessionMgr -->|REST API| FastAPI[🚀 FastAPI Backend<br/>localhost:8501]
+    ChatUI -->|REST + WebSocket| FastAPI
+    VNCViewer -->|HTTP| VNCWeb[🌐 noVNC Web Client<br/>localhost:8080]
+    
+    %% Backend Services
+    FastAPI --> WSManager[🔌 WebSocket Manager<br/>Real-time updates]
+    FastAPI --> Database[(🗄️ SQLite Database<br/>Sessions & Messages)]
+    FastAPI --> AgentService[🤖 Computer Use Service<br/>Agent integration]
+    
+    %% Agent Processing
+    AgentService --> AgentLoop[⚙️ Agent Loop<br/>loop.py]
+    AgentLoop --> Tools[🛠️ Computer Tools<br/>tools/]
+    Tools --> VNCDesktop[🖥️ X11 Desktop<br/>:5901]
+    
+    %% VNC System
+    VNCWeb --> VNCServer[📺 VNC Server<br/>X11 forwarding]
+    VNCServer --> VNCDesktop
+    
+    %% External Services
+    AgentLoop -->|API Calls| Anthropic[🧠 Anthropic Claude<br/>Computer Use API]
+    
+    %% Data Flow Styling
+    classDef frontend fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef backend fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef data fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef external fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef vnc fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    
+    class User,UI,SessionMgr,ChatUI,VNCViewer frontend
+    class FastAPI,WSManager,AgentService,AgentLoop,Tools backend
+    class Database data
+    class Anthropic external
+    class VNCWeb,VNCServer,VNCDesktop vnc
