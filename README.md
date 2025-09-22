@@ -1,6 +1,7 @@
 # Author
-Asim Hameed Khan
-**Email**: asimhameed.cs@gmail.com
+
+Asim Hameed Khan  
+**Email**: asimhameed.cs@gmail.com  
 **LinkedIn**: https://www.linkedin.com/in/asimniazi63/
 
 # Energent AI (Challenge)
