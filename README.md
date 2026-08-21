@@ -5,9 +5,7 @@ Asim Hameed Khan
 **Email**: asimhameed.cs@gmail.com  
 **LinkedIn**: https://www.linkedin.com/in/asimniazi63/
 
-# Energent AI (Challenge)
-
-A rebuilt version of the Anthropic Computer Use Demo with FastAPI backend completely replacing Streamlit, featuring modern React frontend and comprehensive session management.
+# Computer Use in FastAPI and TypeScript
 
 ## Table of Contents
 
